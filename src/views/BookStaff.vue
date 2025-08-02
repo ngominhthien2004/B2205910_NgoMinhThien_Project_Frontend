@@ -31,6 +31,7 @@ export default {
   },
   async mounted() {
     try {
+      // Lấy đúng danh sách sách từ BookService (BookService.getAll trả về mảng)
       this.books = await BookService.getAll();
     } catch {
       this.books = [];
