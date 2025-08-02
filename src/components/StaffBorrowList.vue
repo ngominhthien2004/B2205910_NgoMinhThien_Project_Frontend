@@ -4,6 +4,7 @@
       <thead class="thead-dark">
         <tr>
           <th>Mã sách</th>
+          <th>Tên sách</th>
           <th>Ngày mượn</th>
           <th>Ngày trả</th>
           <th>Trạng thái</th>
@@ -14,6 +15,7 @@
       <tbody>
         <tr v-for="borrow in borrows" :key="borrow._id">
           <td>{{ borrow.idBook }}</td>
+          <td>{{ borrow.bookTitle || "..." }}</td>
           <td>{{ borrow.ngayMuon ? (new Date(borrow.ngayMuon)).toLocaleDateString() : "" }}</td>
           <td>{{ borrow.ngayTra ? (new Date(borrow.ngayTra)).toLocaleDateString() : "" }}</td>
           <td>
@@ -48,12 +50,39 @@
 </template>
 
 <script>
+import BookService from "@/services/book.service";
 export default {
   props: {
     borrows: { type: Array, default: () => [] },
     staff: { type: Boolean, default: true }
   },
+  async mounted() {
+    await this.attachBookTitles();
+  },
+  watch: {
+    borrows: {
+      handler() {
+        this.attachBookTitles();
+      },
+      immediate: true,
+      deep: true
+    }
+  },
   methods: {
+    async attachBookTitles() {
+      const ids = [...new Set(this.borrows.map(b => b.idBook))];
+      const bookMap = {};
+      for (const id of ids) {
+        if (!id) continue;
+        try {
+          const book = await BookService.get(id);
+          if (book && book.title) bookMap[id] = book.title;
+        } catch {}
+      }
+      this.borrows.forEach(b => {
+        b.bookTitle = bookMap[b.idBook] || "";
+      });
+    },
     translateStatus(status) {
       switch (status) {
         case "pending":
@@ -110,6 +139,7 @@ export default {
         newVal.forEach(b => {
           if (!b._newStatus) b._newStatus = b.status;
         });
+        this.attachBookTitles();
       },
       immediate: true,
       deep: true
