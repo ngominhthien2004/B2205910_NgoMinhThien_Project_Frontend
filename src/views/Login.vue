@@ -5,8 +5,8 @@
       <div class="card-body">
         <form @submit.prevent="onLogin">
           <div class="form-group">
-            <label>Email</label>
-            <input v-model="email" type="email" class="form-control" required />
+            <label>Username</label>
+            <input v-model="username" type="text" class="form-control" required />
           </div>
           <div class="form-group">
             <label>Password</label>
@@ -25,6 +25,7 @@
           Don't have an account?
           <router-link to="/register">Register here</router-link>
         </div>
+        <div v-if="error" class="alert alert-danger mt-3">{{ error }}</div>
       </div>
     </div>
   </div>
@@ -34,21 +35,39 @@
 export default {
   data() {
     return {
-      email: "",
+      username: "",
       password: "",
       role: "reader",
+      error: "",
     };
   },
   methods: {
     async onLogin() {
-      // Gọi API đăng nhập ở đây, ví dụ: /api/auth/login
-      // Truyền role để backend xác thực đúng loại tài khoản
-      // Sau khi đăng nhập thành công, chuyển hướng về trang chủ hoặc dashboard
-      // Ví dụ:
-      // await AuthService.login({ email: this.email, password: this.password, role: this.role });
-      // this.$router.push({ name: "home" });
-      alert(`Login as ${this.role} (demo only)`);
-      this.$router.push({ name: "home" });
+      this.error = "";
+      try {
+        const res = await fetch("/api/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            username: this.username,
+            password: this.password,
+          }),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          this.error = data.message || "Login failed";
+          return;
+        }
+        // Lưu user vào localStorage
+        if (data.role === "reader") {
+          localStorage.setItem("user", JSON.stringify({ ...data.reader, role: "reader" }));
+        } else if (data.role === "staff") {
+          localStorage.setItem("user", JSON.stringify({ ...data.staff, role: "staff" }));
+        }
+        this.$router.push({ name: "home" });
+      } catch (e) {
+        this.error = "Cannot connect to server";
+      }
     },
   },
 };

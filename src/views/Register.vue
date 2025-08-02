@@ -5,16 +5,20 @@
       <div class="card-body">
         <form @submit.prevent="onRegister">
           <div class="form-group">
-            <label>Email</label>
-            <input v-model="email" type="email" class="form-control" required />
+            <label>Username</label>
+            <input v-model="username" type="text" class="form-control" required />
           </div>
           <div class="form-group">
             <label>Password</label>
             <input v-model="password" type="password" class="form-control" required />
           </div>
           <div class="form-group">
-            <label>Full Name</label>
-            <input v-model="fullName" type="text" class="form-control" required />
+            <label>Họ</label>
+            <input v-model="lastNameReader" type="text" class="form-control" required />
+          </div>
+          <div class="form-group">
+            <label>Tên</label>
+            <input v-model="firstNameReader" type="text" class="form-control" required />
           </div>
           <button type="submit" class="btn btn-success btn-block mt-3">Register</button>
         </form>
@@ -22,6 +26,7 @@
           Already have an account?
           <router-link to="/login">Login here</router-link>
         </div>
+        <div v-if="error" class="alert alert-danger mt-3">{{ error }}</div>
       </div>
     </div>
   </div>
@@ -31,18 +36,36 @@
 export default {
   data() {
     return {
-      email: "",
+      username: "",
       password: "",
-      fullName: "",
+      lastNameReader: "",
+      firstNameReader: "",
+      error: "",
     };
   },
   methods: {
     async onRegister() {
-      // Gọi API đăng ký ở đây, ví dụ: /api/auth/register
-      // Chỉ đăng ký với role reader
-      // await AuthService.register({ email: this.email, password: this.password, fullName: this.fullName });
-      alert("Register as reader (demo only)");
-      this.$router.push({ name: "login" });
+      this.error = "";
+      try {
+        const res = await fetch("/api/readers", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            username: this.username,
+            password: this.password,
+            lastNameReader: this.lastNameReader,
+            firstNameReader: this.firstNameReader,
+          }),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          this.error = data.message || "Register failed";
+          return;
+        }
+        this.$router.push({ name: "login" });
+      } catch (e) {
+        this.error = "Cannot connect to server";
+      }
     },
   },
 };

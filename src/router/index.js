@@ -3,6 +3,8 @@ import Book from "@/views/Book.vue";
 import Home from "@/views/Home.vue";
 import Login from "@/views/Login.vue";
 import Register from "@/views/Register.vue";
+import Borrow from "@/views/Borrow.vue";
+import Profile from "@/views/Profile.vue";
 const routes = [
     {
         path: "/",
@@ -23,6 +25,16 @@ const routes = [
         path: "/register",
         name: "register",
         component: Register,
+    },
+    {
+        path: "/borrow",
+        name: "borrow",
+        component: Borrow,
+    },
+    {
+        path: "/profile",
+        name: "profile",
+        component: Profile,
     },
 ];
 const router = createRouter({

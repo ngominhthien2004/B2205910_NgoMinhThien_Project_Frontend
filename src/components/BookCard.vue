@@ -1,8 +1,23 @@
 <script>
+import BorrowForm from "./BorrowForm.vue";
 export default {
     props: {
         book: { type: Object, required: true },
     },
+    components: { BorrowForm },
+    data() {
+        return {
+            showBorrowForm: false,
+        };
+    },
+    methods: {
+        openBorrowForm() {
+            this.showBorrowForm = true;
+        },
+        closeBorrowForm() {
+            this.showBorrowForm = false;
+        }
+    }
 };
 </script>
 <template>
@@ -47,5 +62,9 @@ export default {
             <strong>Tác giả:</strong>
             {{ book.author }}
         </div>
+        <div class="p-1">
+            <button class="btn btn-success" @click="openBorrowForm">Mượn sách</button>
+        </div>
+        <BorrowForm v-if="showBorrowForm" :book="book" @close="closeBorrowForm" />
     </div>
 </template>

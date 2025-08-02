@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="welcome-banner">
-      <h1>Welcome to Library Management System</h1>
-      <p class="lead">Discover, borrow, and manage your favorite books with ease</p>
-      <router-link :to="{ name: 'book' }" class="btn btn-lg btn-primary mt-3">Browse Books</router-link>
+      <h1>Thư viện</h1>
+      <p class="lead">Khám phá, mượn và quản lý sách yêu thích của bạn một cách dễ dàng</p>
+      <router-link :to="{ name: 'book' }" class="btn btn-lg btn-primary mt-3">Duyệt sách</router-link>
     </div>
     <!-- Thanh tìm kiếm và danh sách sách -->
     <div class="book-section mb-5">
@@ -14,7 +14,7 @@
       </div>
       <div>
         <BookList :books="filteredBooks" />
-        <p v-if="filteredBooks.length === 0" class="mt-3">No books found.</p>
+        <p v-if="filteredBooks.length === 0" class="mt-3">Không tìm thấy sách nào.</p>
       </div>
     </div>
     <div class="row mt-5">
@@ -23,8 +23,8 @@
           <div class="feature-icon mb-2">
             <i class="fa fa-search fa-3x text-primary"></i>
           </div>
-          <h4>Browse Books</h4>
-          <p>Explore our extensive collection of books across various categories.</p>
+          <h4>Duyệt sách</h4>
+          <p>Khám phá bộ sưu tập sách phong phú của chúng tôi qua nhiều thể loại khác nhau.</p>
         </div>
       </div>
       <div class="col-md-4 mb-3">
@@ -32,8 +32,8 @@
           <div class="feature-icon mb-2">
             <i class="fa fa-bookmark fa-3x text-success"></i>
           </div>
-          <h4>Request Books</h4>
-          <p>Request to borrow books online and pick them up at the library.</p>
+          <h4>Yêu cầu mượn sách</h4>
+          <p>Yêu cầu mượn sách trực tuyến và đến thư viện để nhận sách.</p>
         </div>
       </div>
       <div class="col-md-4 mb-3">
@@ -41,8 +41,8 @@
           <div class="feature-icon mb-2">
             <i class="fa fa-clock fa-3x text-info"></i>
           </div>
-          <h4>Track History</h4>
-          <p>Keep track of your borrowing history and due dates.</p>
+          <h4>Theo dõi lịch sử</h4>
+          <p>Theo dõi lịch sử mượn sách và ngày đến hạn của bạn.</p>
         </div>
       </div>
     </div>
