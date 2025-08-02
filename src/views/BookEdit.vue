@@ -1,17 +1,15 @@
 <template>
     <div v-if="bookLocal" class="page">
         <h4>Hiệu chỉnh Sách</h4>
-        <BookForm :book="bookLocal" @submit:book="updateBook" @delete:book="deleteBook" />
+        <BookUpdateForm :book="bookLocal" @update="updateBook" @cancel="goBack" />
         <p>{{ message }}</p>
     </div>
 </template>
 <script>
-import BookForm from "@/components/BookForm.vue";
+import BookUpdateForm from "@/components/BookUpdateForm.vue";
 import BookService from "@/services/book.service";
 export default {
-    components: {
-        BookForm,
-    },
+    components: { BookUpdateForm },
     props: {
         id: { type: String, required: true },
     },
@@ -49,16 +47,9 @@ export default {
                 console.log(error);
             }
         },
-        async deleteBook() {
-            if (confirm("Bạn muốn xóa sách này?")) {
-                try {
-                    await BookService.delete(this.book._id);
-                    this.$router.push({ name: "booklist" });
-                } catch (error) {
-                    console.log(error);
-                }
-            }
-        },
+        goBack() {
+            this.$router.push({ name: "booklist" });
+        }
     },
     created() {
         this.getBook(this.id);

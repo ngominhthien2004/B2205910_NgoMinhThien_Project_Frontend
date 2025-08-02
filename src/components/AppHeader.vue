@@ -2,12 +2,12 @@
     <nav class="navbar navbar-expand navbar-dark bg-dark">
         <a href="/" class="navbar-brand">
             <i class="fa fa-book-open mr-2"></i>
-            Library Management
+            Quản lý Thư viện
         </a>
         <div class="mr-auto navbar-nav">
             <li class="nav-item">
                 <router-link :to="{ name: 'book' }" class="nav-link">
-                    Books
+                    Sách
                 </router-link>
             </li>
             <li v-if="user && user.role === 'reader'" class="nav-item">
@@ -28,6 +28,11 @@
             <li v-if="user && user.role === 'staff'" class="nav-item">
                 <router-link :to="{ name: 'accountstaff' }" class="nav-link">
                     Quản lý tài khoản
+                </router-link>
+            </li>
+            <li v-if="user && user.role === 'staff'" class="nav-item">
+                <router-link :to="{ name: 'publisherstaff' }" class="nav-link">
+                    Quản lý NXB
                 </router-link>
             </li>
         </div>

@@ -10,36 +10,6 @@
         <p v-else class="mt-3">Chọn một cuốn sách để xem chi tiết.</p>
       </div>
     </div>
-
-    <div class="row mt-5">
-      <div class="col-md-4 mb-3">
-        <div class="feature-card text-center p-4">
-          <div class="feature-icon mb-2">
-            <i class="fa fa-search fa-3x text-primary"></i>
-          </div>
-          <h4>Browse Books</h4>
-          <p>Explore our extensive collection of books across various categories.</p>
-        </div>
-      </div>
-      <div class="col-md-4 mb-3">
-        <div class="feature-card text-center p-4">
-          <div class="feature-icon mb-2">
-            <i class="fa fa-bookmark fa-3x text-success"></i>
-          </div>
-          <h4>Request Books</h4>
-          <p>Request to borrow books online and pick them up at the library.</p>
-        </div>
-      </div>
-      <div class="col-md-4 mb-3">
-        <div class="feature-card text-center p-4">
-          <div class="feature-icon mb-2">
-            <i class="fa fa-clock fa-3x text-info"></i>
-          </div>
-          <h4>Track History</h4>
-          <p>Keep track of your borrowing history and due dates.</p>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 

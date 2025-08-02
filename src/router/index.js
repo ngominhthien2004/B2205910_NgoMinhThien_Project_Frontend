@@ -8,6 +8,7 @@ import Profile from "@/views/Profile.vue";
 import BookStaff from "@/views/BookStaff.vue";
 import BorrowStaff from "@/views/BorrowStaff.vue";
 import AccountStaff from "@/views/AccountStaff.vue";
+import PublisherStaff from "@/views/PublisherStaff.vue";
 const routes = [
     {
         path: "/",
@@ -53,6 +54,11 @@ const routes = [
         path: "/accountstaff",
         name: "accountstaff",
         component: AccountStaff,
+    },
+    {
+        path: "/publisherstaff",
+        name: "publisherstaff",
+        component: PublisherStaff,
     },
 ];
 const router = createRouter({

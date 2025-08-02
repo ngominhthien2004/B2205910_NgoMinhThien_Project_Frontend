@@ -8,7 +8,7 @@
           <th>Ngày trả</th>
           <th>Trạng thái</th>
           <th v-if="staff">Cập nhật trạng thái</th>
-          <th>Thao tác/Ghi chú</th>
+          <th>Thao tác</th>
         </tr>
       </thead>
       <tbody>
@@ -33,17 +33,13 @@
             </button>
           </td>
           <td>
-            <template v-if="borrow.status === 'pending'">
-              <button
-                class="btn btn-sm btn-danger"
-                @click="cancelBorrow(borrow._id)"
-              >
-                Hủy mượn
-              </button>
-            </template>
-            <template v-else>
-              <span class="note-text">{{ getNote(borrow) }}</span>
-            </template>
+            <button
+              v-if="borrow.status === 'pending'"
+              class="btn btn-sm btn-danger"
+              @click="cancelBorrow(borrow._id)"
+            >
+              Hủy mượn
+            </button>
           </td>
         </tr>
       </tbody>
@@ -55,7 +51,7 @@
 export default {
   props: {
     borrows: { type: Array, default: () => [] },
-    staff: { type: Boolean, default: false }
+    staff: { type: Boolean, default: true }
   },
   methods: {
     translateStatus(status) {
@@ -85,21 +81,6 @@ export default {
         default:
           return "";
       }
-    },
-    getNote(borrow) {
-      if (borrow.status === "approved") {
-        return "Yêu cầu mượn sách đã được duyệt, vui lòng đến trực tiếp thư viện để lấy sách";
-      }
-      if (borrow.status === "borrowed") {
-        return "Đang mượn sách, vui lòng trả sách đúng hạn để tránh bị phạt";
-      }
-      if (borrow.status === "returned") {
-        if (borrow.fine && borrow.fine > 0 && borrow.daysLate && borrow.daysLate > 0) {
-          return `Bị phạt ${borrow.fine} đồng vì trễ ${borrow.daysLate} ngày`;
-        }
-        return "Trả sách đúng hạn";
-      }
-      return "";
     },
     async cancelBorrow(id) {
       if (!confirm("Bạn có chắc muốn hủy phiếu mượn này?")) return;
@@ -155,10 +136,5 @@ export default {
 .badge {
   padding: 0.4em 0.7em;
   font-size: 0.95em;
-}
-.note-text {
-  font-size: 0.97em;
-  color: #555;
-  font-style: italic;
 }
 </style>
