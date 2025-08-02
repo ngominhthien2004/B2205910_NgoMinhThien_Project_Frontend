@@ -5,6 +5,9 @@ import Login from "@/views/Login.vue";
 import Register from "@/views/Register.vue";
 import Borrow from "@/views/Borrow.vue";
 import Profile from "@/views/Profile.vue";
+import BookStaff from "@/views/BookStaff.vue";
+import BorrowStaff from "@/views/BorrowStaff.vue";
+import AccountStaff from "@/views/AccountStaff.vue";
 const routes = [
     {
         path: "/",
@@ -35,6 +38,21 @@ const routes = [
         path: "/profile",
         name: "profile",
         component: Profile,
+    },
+    {
+        path: "/bookstaff",
+        name: "bookstaff",
+        component: BookStaff,
+    },
+    {
+        path: "/borrowstaff",
+        name: "borrowstaff",
+        component: BorrowStaff,
+    },
+    {
+        path: "/accountstaff",
+        name: "accountstaff",
+        component: AccountStaff,
     },
 ];
 const router = createRouter({

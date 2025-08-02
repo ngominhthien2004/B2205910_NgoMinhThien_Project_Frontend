@@ -10,9 +10,24 @@
                     Books
                 </router-link>
             </li>
-            <li v-if="user" class="nav-item">
+            <li v-if="user && user.role === 'reader'" class="nav-item">
                 <router-link :to="{ name: 'borrow' }" class="nav-link">
                     Lịch sử mượn sách
+                </router-link>
+            </li>
+            <li v-if="user && user.role === 'staff'" class="nav-item">
+                <router-link :to="{ name: 'bookstaff' }" class="nav-link">
+                    Quản lý sách
+                </router-link>
+            </li>
+            <li v-if="user && user.role === 'staff'" class="nav-item">
+                <router-link :to="{ name: 'borrowstaff' }" class="nav-link">
+                    Quản lý mượn sách
+                </router-link>
+            </li>
+            <li v-if="user && user.role === 'staff'" class="nav-item">
+                <router-link :to="{ name: 'accountstaff' }" class="nav-link">
+                    Quản lý tài khoản
                 </router-link>
             </li>
         </div>
