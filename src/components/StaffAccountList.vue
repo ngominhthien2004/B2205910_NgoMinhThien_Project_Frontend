@@ -19,7 +19,7 @@
         <td>{{ staff.phoneStaff }}</td>
         <td>
           <button class="btn btn-sm btn-primary" @click="$emit('edit', staff)">Sửa</button>
-          <button class="btn btn-sm btn-danger ml-2" @click="$emit('delete', staff._id)">Xóa</button>
+          <button class="btn btn-sm btn-danger ml-2" @click="$emit('delete', staff.username)">Xóa</button>
         </td>
       </tr>
     </tbody>

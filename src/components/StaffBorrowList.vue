@@ -130,7 +130,7 @@ export default {
     },
     emitUpdateStatus(borrow) {
       const newStatus = borrow._newStatus || borrow.status;
-      this.$emit("update-status", borrow._id, newStatus);
+      this.$emit("update", { id: borrow._id, field: "status", value: newStatus });
     }
   },
   watch: {

@@ -9,9 +9,8 @@ export default {
             this.$emit("edit", this.book);
         },
         deleteBook() {
-            if (confirm("Bạn có chắc muốn xóa sách này?")) {
-                this.$emit("delete", this.book);
-            }
+            // Không dùng confirm, chỉ emit để cha xử lý modal xác nhận
+            this.$emit("delete", this.book);
         }
     }
 };

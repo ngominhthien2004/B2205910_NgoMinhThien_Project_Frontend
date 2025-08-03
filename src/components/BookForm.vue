@@ -1,10 +1,14 @@
 <template>
-    <Form @submit="submitBook" :validation-schema="bookFormSchema">
+    <!-- Hiển thị lỗi idBook trùng nếu có -->
+    <div v-if="errorMessage" class="alert alert-danger mb-2">{{ errorMessage }}</div>
+    <Form @submit="submitBook" :validation-schema="bookFormSchema" v-slot="{ errors }">
         <div class="form-row">
             <div class="form-group flex-1">
                 <label for="idBook">Mã sách</label>
                 <Field name="idBook" type="text" class="form-control" v-model="bookLocal.idBook" />
                 <ErrorMessage name="idBook" class="error-feedback" />
+                <!-- Hiển thị lỗi trùng idBook dưới trường nhập -->
+                <div v-if="idBookDuplicateError" class="error-feedback">{{ idBookDuplicateError }}</div>
             </div>
             <div class="form-group flex-1">
                 <label for="title">Tên sách</label>
@@ -65,7 +69,7 @@
             <button v-if="bookLocal._id" type="button" class="ml-2 btn btn-danger" @click="deleteBook">
                 Xóa
             </button>
-            <button type="button" class="ml-2 btn btn-danger" @click="Cancel">
+            <button type="button" class="ml-2 btn btn-danger" @click="cancelForm">
                 Thoát
             </button>
         </div>
@@ -74,16 +78,17 @@
 
 <script>
 import * as yup from "yup";
-import { Form, Field, ErrorMessage } from "vee-validate";
+import { Form, Field, ErrorMessage, useForm } from "vee-validate";
 export default {
     components: {
         Form,
         Field,
         ErrorMessage,
     },
-    emits: ["submit:book", "delete:book"],
+    emits: ["submit:book", "delete:book", "check:idBook"],
     props: {
-        book: { type: Object, required: true }
+        book: { type: Object, required: true },
+        errorMessage: { type: String, default: "" }
     },
     data() {
         const bookFormSchema = yup.object().shape({
@@ -101,21 +106,32 @@ export default {
         return {
             bookLocal: this.book,
             bookFormSchema,
+            idBookDuplicateError: ""
         };
+    },
+    watch: {
+        errorMessage(val) {
+            // Nếu có lỗi trùng idBook từ cha, hiển thị ở trường idBook
+            this.idBookDuplicateError = val;
+        }
     },
     methods: {
         submitBook() {
-            this.$emit("submit:book", this.bookLocal);
+            this.idBookDuplicateError = "";
+            this.$emit("check:idBook", this.bookLocal, (duplicateMsg) => {
+                if (duplicateMsg) {
+                    this.idBookDuplicateError = duplicateMsg;
+                } else {
+                    this.$emit("submit:book", this.bookLocal);
+                }
+            });
         },
         deleteBook() {
-            this.$emit("delete:book", this.bookLocal._id);
+            this.$emit("delete:book");
         },
-        Cancel() {
-            const reply = window.confirm('Bạn có chắc muốn thoát? Thay đổi chưa được lưu sẽ mất!');
-            if (!reply) {
-                return false;
-            }
-            else this.$router.push({ name: "booklist" });
+        cancelForm() {
+            // Loại bỏ window.confirm, chỉ emit để cha đóng modal ngay lập tức
+            this.$emit("delete:book");
         }
     },
 };

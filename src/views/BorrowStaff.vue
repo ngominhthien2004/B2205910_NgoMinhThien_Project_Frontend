@@ -1,7 +1,7 @@
 <template>
   <div class="page borrowstaff-page">
     <h2>Quản lý phiếu mượn sách</h2>
-    <StaffBorrowList :borrows="borrows" @refresh="fetchBorrows" @update-status="updateStatus" />
+    <StaffBorrowList :borrows="borrows" @refresh="fetchBorrows" @update="handleUpdate" />
   </div>
 </template>
 <script>
@@ -23,13 +23,19 @@ export default {
     },
     async updateStatus(id, status) {
       try {
-        await fetch(`/api/muonsachs/${id}/status`, {
+        await fetch(`/api/muonsachs/${id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ status }),
         });
         this.fetchBorrows();
       } catch {}
+    },
+    handleUpdate({ id, field, value }) {
+      if (field === "status") {
+        this.updateStatus(id, value);
+      }
+      // Nếu cần xử lý các field khác, thêm tại đây
     }
   },
   mounted() {

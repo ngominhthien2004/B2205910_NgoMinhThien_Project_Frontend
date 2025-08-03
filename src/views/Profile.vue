@@ -113,6 +113,7 @@ export default {
         this.user = { ...this.user, ...this.form };
         this.message = "Cập nhật thành công!";
         this.messageSuccess = true;
+        window.location.reload();
       } catch {
         this.message = "Cập nhật thất bại!";
         this.messageSuccess = false;

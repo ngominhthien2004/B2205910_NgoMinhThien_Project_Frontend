@@ -31,6 +31,8 @@
           <div class="modal-content">
             <BookForm
               :book="emptyBook"
+              :errorMessage="''"
+              @check:idBook="checkIdBookAdd"
               @submit:book="addBook"
               @delete:book="cancelAdd"
             />
@@ -41,6 +43,19 @@
       </div>
     </div>
     <div v-if="filteredBooks.length === 0" class="mt-3 text-center text-muted">Không có sách nào.</div>
+    <div v-if="errorMessage" class="alert alert-danger mt-2">{{ errorMessage }}</div>
+
+    <!-- Modal xác nhận xóa sách -->
+    <div v-if="showDeleteModal" class="modal-overlay" @click.self="cancelDelete">
+      <div class="modal-content modal-delete-content">
+        <h5>Bạn có chắc muốn xóa sách này?</h5>
+        <p><b>{{ bookToDelete?.title }}</b> (ID: {{ bookToDelete?.idBook }})</p>
+        <div class="d-flex justify-content-end mt-4">
+          <button class="btn btn-secondary mr-2" @click="cancelDelete">Hủy</button>
+          <button class="btn btn-danger" @click="confirmDeleteBook">Xóa</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -60,6 +75,7 @@ export default {
       showAddForm: false,
       showEditForm: false,
       editBookData: null,
+      errorMessage: "", // Thêm biến lưu thông báo lỗi
       emptyBook: {
         idBook: "",
         title: "",
@@ -71,7 +87,9 @@ export default {
         releaseDate: "",
         publisher: "",
         author: "",
-      }
+      },
+      showDeleteModal: false,
+      bookToDelete: null,
     };
   },
   computed: {
@@ -103,35 +121,68 @@ export default {
       this.activeIndex = index;
       this.showEditForm = false;
       this.showAddForm = false;
+      this.errorMessage = "";
     },
     startEditBook(book) {
       this.editBookData = { ...book };
       this.showEditForm = true;
       this.showAddForm = false;
+      this.errorMessage = "";
     },
     async updateBook(book) {
+      // Kiểm tra idBook trùng với sách khác (ngoại trừ chính nó)
+      const duplicate = this.books.find(
+        b => b.idBook === book.idBook && b._id !== book._id
+      );
+      if (duplicate) {
+        this.errorMessage = "ID sách đã tồn tại. Vui lòng chọn ID khác.";
+        return;
+      }
       await BookService.update(book._id, book);
       this.showEditForm = false;
       this.editBookData = null;
+      this.errorMessage = "";
       this.fetchBooks();
     },
+    checkIdBookAdd(book, cb) {
+      const duplicate = this.books.find(b => b.idBook === book.idBook);
+      if (duplicate) {
+        cb("ID sách đã tồn tại. Vui lòng chọn ID khác.");
+      } else {
+        cb("");
+      }
+    },
     async addBook(book) {
+      // Không cần kiểm tra trùng ở đây nữa, đã kiểm tra ở form
       await BookService.create(book);
       this.showAddForm = false;
+      this.errorMessage = "";
       this.fetchBooks();
     },
     async deleteBook(book) {
-      if (confirm("Bạn có chắc muốn xóa sách này?")) {
-        await BookService.delete(book._id);
-        this.fetchBooks();
-      }
+      this.bookToDelete = book;
+      this.showDeleteModal = true;
+    },
+    async confirmDeleteBook() {
+      if (!this.bookToDelete) return;
+      await BookService.delete(this.bookToDelete._id);
+      this.showDeleteModal = false;
+      this.bookToDelete = null;
+      // Luôn tải lại trang sau khi xóa thành công
+      window.location.reload();
+    },
+    cancelDelete() {
+      this.showDeleteModal = false;
+      this.bookToDelete = null;
     },
     cancelEdit() {
       this.showEditForm = false;
       this.editBookData = null;
+      this.errorMessage = "";
     },
     cancelAdd() {
       this.showAddForm = false;
+      this.errorMessage = "";
     }
   },
   mounted() {
@@ -190,7 +241,7 @@ export default {
 .modal-content {
   background: #fff;
   border-radius: 10px;
-  padding: 32px 24px;
+  padding: 90px 10px 32px 24px;
   width: 70vw;
   height: 60vw;
   max-width: 95vw;
@@ -198,5 +249,13 @@ export default {
   box-shadow: 0 4px 24px rgba(0,0,0,0.18);
   position: relative;
   overflow-y: auto;
+}
+/* Modal xác nhận xóa nhỏ hơn */
+.modal-delete-content {
+  padding: 32px 24px;
+  width: 350px;
+  max-width: 90vw;
+  height: auto;
+  max-height: 90vh;
 }
 </style>

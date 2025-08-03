@@ -251,9 +251,9 @@ export default {
         phoneStaff: ""
       };
     },
-    async deleteStaff(id) {
+    async deleteStaff(username) {
       if (confirm("Bạn có chắc muốn xóa nhân viên này?")) {
-        await StaffService.delete(id);
+        await StaffService.delete(username);
         this.fetchStaffs();
       }
     }

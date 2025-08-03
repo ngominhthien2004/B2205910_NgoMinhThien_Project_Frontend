@@ -12,7 +12,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="borrow in borrows" :key="borrow._id">
+        <tr v-for="borrow in localBorrows" :key="borrow._id">
           <td>{{ borrow.idBook }}</td>
           <td>{{ borrow.ngayMuon ? (new Date(borrow.ngayMuon)).toLocaleDateString() : "" }}</td>
           <td>{{ borrow.ngayTra ? (new Date(borrow.ngayTra)).toLocaleDateString() : "" }}</td>
@@ -56,6 +56,11 @@ export default {
   props: {
     borrows: { type: Array, default: () => [] },
     staff: { type: Boolean, default: false }
+  },
+  data() {
+    return {
+      localBorrows: []
+    };
   },
   methods: {
     translateStatus(status) {
@@ -109,7 +114,10 @@ export default {
           headers: { "Content-Type": "application/json" }
         });
         if (res.ok) {
+          // Xóa borrow khỏi localBorrows để cập nhật UI ngay lập tức
+          this.localBorrows = this.localBorrows.filter(b => b._id !== id);
           this.$emit("refresh");
+          this.$emit("show-message", "Xóa phiếu mượn thành công");
         } else {
           const data = await res.json();
           alert(data.message || "Không thể hủy phiếu mượn.");
@@ -126,7 +134,9 @@ export default {
   watch: {
     borrows: {
       handler(newVal) {
-        newVal.forEach(b => {
+        // Đồng bộ localBorrows với prop borrows
+        this.localBorrows = newVal.map(b => ({ ...b }));
+        this.localBorrows.forEach(b => {
           if (!b._newStatus) b._newStatus = b.status;
         });
       },
