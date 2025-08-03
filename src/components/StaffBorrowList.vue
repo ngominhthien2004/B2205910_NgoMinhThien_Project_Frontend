@@ -152,16 +152,27 @@ export default {
 .borrow-table {
   min-width: 1100px;
   background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
 }
 .table-responsive {
-  width: 77vw;
+  width: 75vw;
   margin-left: 50%;
   transform: translateX(-50%);
+
 }
 .thead-dark th {
   background: #1677ff;
   color: #fff;
   border: none;
+}
+/* Cắt ngắn chiều rộng cột thao tác */
+.borrow-table th:last-child,
+.borrow-table td:last-child {
+  width: 90px;
+  min-width: 70px;
+  max-width: 110px;
+  text-align: center;
 }
 .badge {
   padding: 0.4em 0.7em;

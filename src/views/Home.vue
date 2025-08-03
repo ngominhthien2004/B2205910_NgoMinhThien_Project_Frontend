@@ -8,14 +8,19 @@
     <!-- Thanh tìm kiếm và danh sách sách -->
     <div class="book-section mb-5">
       <div class="row mb-3">
-        <div class="col-md-8">
+        <div class="col-md">
           <InputSearch v-model="searchText" placeholder="Search books..." />
         </div>
       </div>
       <div>
-        <BookList :books="filteredBooks" />
+        <BookList
+          :books="filteredBooks"
+          :activeIndex="activeIndex"
+          @update:activeIndex="setActiveIndex"
+        />
         <p v-if="filteredBooks.length === 0" class="mt-3">Không tìm thấy sách nào.</p>
       </div>
+      <BookCard v-if="activeBook" :book="activeBook" />
     </div>
     <div class="row mt-5">
       <div class="col-md-4 mb-3">
@@ -53,15 +58,18 @@
 import BookList from "@/components/BookList.vue";
 import InputSearch from "@/components/InputSearch.vue";
 import BookService from "@/services/book.service";
+import BookCard from "@/components/BookCard.vue";
 export default {
   components: {
     BookList,
     InputSearch,
+    BookCard,
   },
   data() {
     return {
       books: [],
       searchText: "",
+      activeIndex: -1,
     };
   },
   computed: {
@@ -74,6 +82,15 @@ export default {
           .toLowerCase()
           .includes(search)
       );
+    },
+    activeBook() {
+      if (this.activeIndex < 0) return null;
+      return this.filteredBooks[this.activeIndex];
+    },
+  },
+  methods: {
+    setActiveIndex(index) {
+      this.activeIndex = index;
     },
   },
   async mounted() {
@@ -94,6 +111,12 @@ export default {
   padding: 48px 24px;
   text-align: center;
   margin-bottom: 32px;
+  /* Thêm background image */
+  background-image: url('@/assets/welcome-banner-bg.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
 }
 .welcome-banner h1 {
   font-size: 3rem;

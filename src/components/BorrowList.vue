@@ -141,11 +141,14 @@ export default {
 .borrow-table {
   min-width: 1100px;
   background: #fff;
+  border-radius: 12px;
 }
 .table-responsive {
-  width: 77vw;
+  width: 75vw;
   margin-left: 50%;
   transform: translateX(-50%);
+  border-radius: 12px;
+  overflow: hidden;
 }
 .thead-dark th {
   background: #1677ff;
@@ -153,7 +156,7 @@ export default {
   border: none;
 }
 .badge {
-  padding: 0.4em 0.7em;
+  padding: 0.4em 0.58em;
   font-size: 0.95em;
 }
 .note-text {

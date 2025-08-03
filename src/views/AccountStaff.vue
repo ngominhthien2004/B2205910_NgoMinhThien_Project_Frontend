@@ -1,7 +1,7 @@
 <template>
   <div class="page account-page">
     <h2 class="text-center">Quản lý tài khoản</h2>
-    <h4 class="mt-4">Tài khoản bạn đọc</h4>
+    <h4 class="mt-4">Tài khoản độc giả</h4>
     <!-- Bỏ thao tác thêm bạn đọc -->
     <div v-if="editReaderId" class="card p-3 mb-3">
       <form @submit.prevent="updateReader">
@@ -38,7 +38,7 @@
         <button type="button" class="btn btn-secondary ml-2" @click="cancelEditReader">Hủy</button>
       </form>
     </div>
-    <ReaderList :readers="readers" @edit="startEditReader" @delete="deleteReader" />
+    <ReaderAccountList :readers="readers" @edit="startEditReader" @delete="deleteReader" />
     <h4 class="mt-4">Tài khoản nhân viên</h4>
     <button class="btn btn-success mb-2" @click="showAddStaff = !showAddStaff">
       {{ showAddStaff ? "Đóng" : "Thêm nhân viên" }}
@@ -99,16 +99,16 @@
         <button type="button" class="btn btn-secondary ml-2" @click="cancelEditStaff">Hủy</button>
       </form>
     </div>
-    <StaffList :staffs="staffs" @edit="startEditStaff" @delete="deleteStaff" />
+    <StaffAccountList :staffs="staffs" @edit="startEditStaff" @delete="deleteStaff" />
   </div>
 </template>
 <script>
-import ReaderList from "@/components/ReaderList.vue";
-import StaffList from "@/components/StaffList.vue";
+import ReaderAccountList from "@/components/ReaderAccountList.vue";
+import StaffAccountList from "@/components/StaffAccountList.vue";
 import ReaderService from "@/services/reader.service";
 import StaffService from "@/services/staff.service";
 export default {
-  components: { ReaderList, StaffList },
+  components: { ReaderAccountList, StaffAccountList },
   data() {
     return {
       readers: [],
@@ -193,7 +193,7 @@ export default {
       };
     },
     async deleteReader(id) {
-      if (confirm("Bạn có chắc muốn xóa bạn đọc này?")) {
+      if (confirm("Bạn có chắc muốn xóa độc giả này?")) {
         await ReaderService.delete(id);
         this.fetchReaders();
       }
@@ -269,5 +269,11 @@ export default {
   max-width: 90vw;
   min-width: 900px;
   margin: 0 auto;
+}
+
+.thead-blue th {
+  background: #1677ff;
+  color: #fff;
+  border: none;
 }
 </style>

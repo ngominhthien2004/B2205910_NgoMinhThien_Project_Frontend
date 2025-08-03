@@ -42,8 +42,8 @@
       </form>
     </div>
     <div class="table-responsive">
-      <table class="table table-bordered table-hover w-100">
-        <thead>
+      <table class="table table-bordered table-hover w-100 publisher-table-bg">
+        <thead class="thead-blue">
           <tr>
             <th>Mã NXB</th>
             <th>Tên NXB</th>
@@ -138,5 +138,19 @@ export default {
 .page {
   max-width: 900px;
   margin: 0 auto;
+}
+
+.publisher-table-bg {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  overflow: hidden;
+}
+
+/* Thêm shading xanh dương cho header bảng */
+.thead-blue th {
+  background: #1677ff;
+  color: #fff;
+  border: none;
 }
 </style>

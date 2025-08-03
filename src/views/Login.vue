@@ -1,29 +1,29 @@
 <template>
   <div class="login-container">
     <div class="card login-card">
-      <div class="card-header"><h2>Login</h2></div>
+      <div class="card-header"><h2>Đăng nhập</h2></div>
       <div class="card-body">
         <form @submit.prevent="onLogin">
           <div class="form-group">
-            <label>Username</label>
+            <label>Tên đăng nhập</label>
             <input v-model="username" type="text" class="form-control" required />
           </div>
           <div class="form-group">
-            <label>Password</label>
+            <label>Mật khẩu</label>
             <input v-model="password" type="password" class="form-control" required />
           </div>
           <div class="form-group">
-            <label>Role</label>
+            <label>Vai trò</label>
             <select v-model="role" class="form-control">
-              <option value="reader">Reader</option>
-              <option value="staff">Staff</option>
+              <option value="reader">Độc giả</option>
+              <option value="staff">Nhân viên</option>
             </select>
           </div>
-          <button type="submit" class="btn btn-primary btn-block mt-3">Login</button>
+          <button type="submit" class="btn btn-primary btn-block mt-3">Đăng nhập</button>
         </form>
         <div v-if="role==='reader'" class="mt-3 text-center">
-          Don't have an account?
-          <router-link to="/register">Register here</router-link>
+          Chưa có tài khoản?
+          <router-link to="/register">Đăng ký tại đây</router-link>
         </div>
         <div v-if="error" class="alert alert-danger mt-3">{{ error }}</div>
       </div>
@@ -79,8 +79,23 @@ export default {
   justify-content: center;
   align-items: center;
   min-height: 80vh;
+  /* Thêm background image */
+  background-image: url('@/assets/auth-bg.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+}
+.login-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(22, 119, 255, 0.18); /* overlay mờ */
+  z-index: 0;
 }
 .login-card {
   width: 400px;
+  position: relative;
+  z-index: 1;
 }
 </style>

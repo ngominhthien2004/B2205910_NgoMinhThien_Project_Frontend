@@ -19,7 +19,13 @@
             </div>
             <div class="row mb-2">
               <div class="col-4 font-weight-bold">Ngày sinh:</div>
-              <div class="col"><input v-model="form.dateOfBirthReader" class="form-control" /></div>
+              <div class="col">
+                <input
+                  v-model="form.dateOfBirthReader"
+                  class="form-control"
+                  type="date"
+                />
+              </div>
             </div>
             <div class="row mb-2">
               <div class="col-4 font-weight-bold">Giới tính:</div>
@@ -58,7 +64,9 @@
           </div>
           <div class="text-center mt-3">
             <button type="submit" class="btn btn-primary">Cập nhật</button>
-            <span v-if="message" class="ml-3 text-success">{{ message }}</span>
+            <span v-if="message" :class="{'ml-3': true, 'text-success': messageSuccess, 'text-danger': !messageSuccess}">
+              {{ message }}
+            </span>
           </div>
         </form>
       </div>
@@ -78,6 +86,7 @@ export default {
       user: null,
       form: {},
       message: "",
+      messageSuccess: true,
     };
   },
   mounted() {
@@ -103,8 +112,10 @@ export default {
         localStorage.setItem("user", JSON.stringify({ ...this.user, ...this.form }));
         this.user = { ...this.user, ...this.form };
         this.message = "Cập nhật thành công!";
+        this.messageSuccess = true;
       } catch {
         this.message = "Cập nhật thất bại!";
+        this.messageSuccess = false;
       }
     }
   }
@@ -123,5 +134,8 @@ export default {
 }
 .font-weight-bold {
   font-weight: 600;
+}
+.text-danger {
+  color: #dc3545 !important;
 }
 </style>

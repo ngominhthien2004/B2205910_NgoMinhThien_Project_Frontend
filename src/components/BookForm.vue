@@ -1,54 +1,64 @@
 <template>
     <Form @submit="submitBook" :validation-schema="bookFormSchema">
-        <div class="form-group">
-            <label for="idBook">Mã sách</label>
-            <Field name="idBook" type="text" class="form-control" v-model="bookLocal.idBook" />
-            <ErrorMessage name="idBook" class="error-feedback" />
+        <div class="form-row">
+            <div class="form-group flex-1">
+                <label for="idBook">Mã sách</label>
+                <Field name="idBook" type="text" class="form-control" v-model="bookLocal.idBook" />
+                <ErrorMessage name="idBook" class="error-feedback" />
+            </div>
+            <div class="form-group flex-1">
+                <label for="title">Tên sách</label>
+                <Field name="title" type="text" class="form-control" v-model="bookLocal.title" />
+                <ErrorMessage name="title" class="error-feedback" />
+            </div>
         </div>
-        <div class="form-group">
-            <label for="title">Tên sách</label>
-            <Field name="title" type="text" class="form-control" v-model="bookLocal.title" />
-            <ErrorMessage name="title" class="error-feedback" />
+        <div class="form-row">
+            <div class="form-group flex-1">
+                <label for="description">Mô tả</label>
+                <Field name="description" type="text" class="form-control" v-model="bookLocal.description" />
+                <ErrorMessage name="description" class="error-feedback" />
+            </div>
+            <div class="form-group flex-1">
+                <label for="category">Thể loại</label>
+                <Field name="category" type="text" class="form-control" v-model="bookLocal.category" />
+                <ErrorMessage name="category" class="error-feedback" />
+            </div>
         </div>
-        <div class="form-group">
-            <label for="description">Mô tả</label>
-            <Field name="description" type="text" class="form-control" v-model="bookLocal.description" />
-            <ErrorMessage name="description" class="error-feedback" />
+        <div class="form-row">
+            <div class="form-group flex-1">
+                <label for="price">Giá</label>
+                <Field name="price" type="number" class="form-control" v-model="bookLocal.price" />
+                <ErrorMessage name="price" class="error-feedback" />
+            </div>
+            <div class="form-group flex-1">
+                <label for="totalCopies">Tổng số lượng</label>
+                <Field name="totalCopies" type="number" class="form-control" v-model="bookLocal.totalCopies" />
+                <ErrorMessage name="totalCopies" class="error-feedback" />
+            </div>
         </div>
-        <div class="form-group">
-            <label for="category">Thể loại</label>
-            <Field name="category" type="text" class="form-control" v-model="bookLocal.category" />
-            <ErrorMessage name="category" class="error-feedback" />
+        <div class="form-row">
+            <div class="form-group flex-1">
+                <label for="availableCopies">Số lượng còn lại</label>
+                <Field name="availableCopies" type="number" class="form-control" v-model="bookLocal.availableCopies" />
+                <ErrorMessage name="availableCopies" class="error-feedback" />
+            </div>
+            <div class="form-group flex-1">
+                <label for="releaseDate">Ngày phát hành</label>
+                <Field name="releaseDate" type="date" class="form-control" v-model="bookLocal.releaseDate" />
+                <ErrorMessage name="releaseDate" class="error-feedback" />
+            </div>
         </div>
-        <div class="form-group">
-            <label for="price">Giá</label>
-            <Field name="price" type="number" class="form-control" v-model="bookLocal.price" />
-            <ErrorMessage name="price" class="error-feedback" />
-        </div>
-        <div class="form-group">
-            <label for="totalCopies">Tổng số lượng</label>
-            <Field name="totalCopies" type="number" class="form-control" v-model="bookLocal.totalCopies" />
-            <ErrorMessage name="totalCopies" class="error-feedback" />
-        </div>
-        <div class="form-group">
-            <label for="availableCopies">Số lượng còn lại</label>
-            <Field name="availableCopies" type="number" class="form-control" v-model="bookLocal.availableCopies" />
-            <ErrorMessage name="availableCopies" class="error-feedback" />
-        </div>
-        <div class="form-group">
-            <label for="releaseDate">Ngày phát hành</label>
-            <Field name="releaseDate" type="date" class="form-control" v-model="bookLocal.releaseDate" />
-            <ErrorMessage name="releaseDate" class="error-feedback" />
-        </div>
-        <div class="form-group">
-            <label for="publisher">Nhà xuất bản</label>
-            <Field name="publisher" type="text" class="form-control" v-model="bookLocal.publisher" />
-            <ErrorMessage name="publisher" class="error-feedback" />
-        </div>
-        <div class="form-group">
-            <label for="author">Tác giả</label>
-            <Field name="author" type="text" class="form-control" v-model="bookLocal.author" />
-            <ErrorMessage name="author" class="error-feedback" />
+        <div class="form-row">
+            <div class="form-group flex-1">
+                <label for="publisher">Nhà xuất bản</label>
+                <Field name="publisher" type="text" class="form-control" v-model="bookLocal.publisher" />
+                <ErrorMessage name="publisher" class="error-feedback" />
+            </div>
+            <div class="form-group flex-1">
+                <label for="author">Tác giả</label>
+                <Field name="author" type="text" class="form-control" v-model="bookLocal.author" />
+                <ErrorMessage name="author" class="error-feedback" />
+            </div>
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-primary">Lưu</button>
@@ -112,4 +122,18 @@ export default {
 </script>
 <style scoped>
 @import "@/assets/form.css";
+.form-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 3px;
+}
+.flex-1 {
+  flex: 1;
+}
+@media (max-width: 600px) {
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+}
 </style>

@@ -26,12 +26,17 @@
           @update="updateBook"
           @cancel="cancelEdit"
         />
-        <BookForm
-          v-if="showAddForm"
-          :book="emptyBook"
-          @submit:book="addBook"
-          @delete:book="cancelAdd"
-        />
+        <!-- Modal for Add Book -->
+        <div v-if="showAddForm" class="modal-overlay" @click.self="cancelAdd">
+          <div class="modal-content">
+            <BookForm
+              :book="emptyBook"
+              @submit:book="addBook"
+              @delete:book="cancelAdd"
+            />
+          </div>
+        </div>
+        <!-- End Modal -->
         <p v-if="!activeBook && !showEditForm && !showAddForm" class="mt-3">Chọn một cuốn sách để xem chi tiết.</p>
       </div>
     </div>
@@ -164,5 +169,28 @@ export default {
   background: #f8f9fa;
   border-radius: 12px;
   padding: 24px;
+}
+
+/* Modal styles */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal-content {
+  background: #fff;
+  border-radius: 10px;
+  padding: 32px 24px;
+  width: 70vw;
+  height: 60vw;
+  max-width: 95vw;
+  max-height: 95vh;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+  position: relative;
+  overflow-y: auto;
 }
 </style>
