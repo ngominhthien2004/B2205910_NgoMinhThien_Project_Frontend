@@ -129,6 +129,12 @@ export default {
     }
   },
   mounted() {
+    // Kiểm tra quyền staff trước khi cho truy cập
+    const user = JSON.parse(localStorage.getItem("user") || "null");
+    if (!user || user.role !== "staff") {
+      this.$router.replace({ name: "login" });
+      return;
+    }
     this.fetchPublishers();
   }
 };
