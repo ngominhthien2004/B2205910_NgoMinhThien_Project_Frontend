@@ -3,7 +3,7 @@
         <nav class="navbar navbar-expand navbar-dark bg-dark" style="position: relative; z-index: 1050;">
             <a href="/" class="navbar-brand">
                 <img src="/favicon.ico" alt="Logo" class="mr-2" style="height: 24px; width: 24px;" />
-                Quản lý Thư viện
+                Thư viện MT
             </a>
             <div class="mr-auto navbar-nav">
                 <li class="nav-item">
@@ -11,7 +11,7 @@
                         Sách
                     </router-link>
                 </li>
-                <li v-if="user && user.role === 'reader'" class="nav-item">
+                <li v-if="user && (user.role === 'reader' || user.role === 'staff')" class="nav-item">
                     <router-link :to="{ name: 'borrow' }" class="nav-link">
                         Lịch sử mượn sách
                     </router-link>

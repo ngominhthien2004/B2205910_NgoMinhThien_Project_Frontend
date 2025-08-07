@@ -12,16 +12,9 @@
             <label>Mật khẩu</label>
             <input v-model="password" type="password" class="form-control" required />
           </div>
-          <div class="form-group">
-            <label>Vai trò</label>
-            <select v-model="role" class="form-control">
-              <option value="reader">Độc giả</option>
-              <option value="staff">Nhân viên</option>
-            </select>
-          </div>
           <button type="submit" class="btn btn-primary btn-block mt-3">Đăng nhập</button>
         </form>
-        <div v-if="role==='reader'" class="mt-3 text-center">
+        <div class="mt-3 text-center">
           Chưa có tài khoản?
           <router-link to="/register">Đăng ký tại đây</router-link>
         </div>
@@ -37,7 +30,6 @@ export default {
     return {
       username: "",
       password: "",
-      role: "reader",
       error: "",
     };
   },
