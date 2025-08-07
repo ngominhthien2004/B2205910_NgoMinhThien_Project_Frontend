@@ -17,7 +17,7 @@
             <input v-model="readerForm.username" class="form-control" placeholder="Tên đăng nhập" required />
           </div>
           <div class="form-group col">
-            <input v-model="readerForm.password" class="form-control" placeholder="Mật khẩu" />
+            <input v-model="readerForm.password" type="password" class="form-control" placeholder="Mật khẩu" />
           </div>
         </div>
         <div class="form-row">
