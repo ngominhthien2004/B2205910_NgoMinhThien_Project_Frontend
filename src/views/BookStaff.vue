@@ -1,6 +1,6 @@
 <template>
   <div class="page bookstaff-page">
-    <h2>Quản lý sách</h2>
+    <h2 class="text-center">Quản lý sách</h2>
     <div class="row">
       <div class="col-md-6">
         <InputSearch v-model="searchText" placeholder="Tìm kiếm sách..." />

@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <h2>Quản lý nhà xuất bản</h2>
+    <h2 class="text-center">Quản lý nhà xuất bản</h2>
     <div class="mb-3">
       <button class="btn btn-success" @click="showAdd = !showAdd">
         {{ showAdd ? "Đóng" : "Thêm NXB mới" }}
@@ -41,36 +41,19 @@
         <button type="button" class="btn btn-secondary mt-2 ml-2" @click="cancelEdit">Hủy</button>
       </form>
     </div>
-    <div class="table-responsive">
-      <table class="table table-bordered table-hover w-100 publisher-table-bg">
-        <thead class="thead-blue">
-          <tr>
-            <th>Mã NXB</th>
-            <th>Tên NXB</th>
-            <th>Địa chỉ</th>
-            <th>Thao tác</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="publisher in publishers" :key="publisher._id">
-            <td>{{ publisher.idPublisher }}</td>
-            <td>{{ publisher.namePublisher }}</td>
-            <td>{{ publisher.addressPublisher }}</td>
-            <td>
-              <button class="btn btn-warning btn-sm mr-2" @click="startEdit(publisher)">Sửa</button>
-              <button class="btn btn-danger btn-sm" @click="deletePublisher(publisher._id)">Xóa</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div v-if="publishers.length === 0" class="mt-3 text-center text-muted">Không có nhà xuất bản nào.</div>
-    </div>
+    <PublisherList
+      :publishers="publishers"
+      @edit="startEdit"
+      @delete="deletePublisher"
+    />
   </div>
 </template>
 
 <script>
 import PublisherService from "@/services/publisher.service";
+import PublisherList from "@/components/PublisherList.vue";
 export default {
+  components: { PublisherList },
   data() {
     return {
       publishers: [],
@@ -142,7 +125,7 @@ export default {
 
 <style scoped>
 .page {
-  max-width: 900px;
+  max-width: 100vw;
   margin: 0 auto;
 }
 

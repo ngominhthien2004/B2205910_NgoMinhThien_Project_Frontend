@@ -1,6 +1,6 @@
 <template>
   <div class="page borrowstaff-page">
-    <h2>Quản lý phiếu mượn sách</h2>
+    <h2 class="text-center">Quản lý phiếu mượn sách</h2>
     <StaffBorrowList :borrows="borrows" @refresh="fetchBorrows" @update="handleUpdate" />
   </div>
 </template>
