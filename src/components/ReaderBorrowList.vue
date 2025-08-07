@@ -44,3 +44,13 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.table-responsive {
+  width: 75vw;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  border-radius: 10px;
+  overflow: hidden;
+}
+</style>

@@ -148,16 +148,11 @@ export default {
 </script>
 
 <style scoped>
-.borrow-table {
-  min-width: 1100px;
-  background: #fff;
-  border-radius: 12px;
-}
 .table-responsive {
   width: 75vw;
   margin-left: 50%;
   transform: translateX(-50%);
-  border-radius: 12px;
+  border-radius: 10px;
   overflow: hidden;
 }
 .thead-dark th {
