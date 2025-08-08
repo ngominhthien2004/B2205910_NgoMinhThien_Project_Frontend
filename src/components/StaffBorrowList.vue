@@ -13,7 +13,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="borrow in borrows" :key="borrow._id">
+        <tr v-for="borrow in sortedBorrows" :key="borrow._id">
           <td>{{ borrow.idBook }}</td>
           <td>{{ borrow.bookTitle || "..." }}</td>
           <td>{{ borrow.ngayMuon ? (new Date(borrow.ngayMuon)).toLocaleDateString() : "" }}</td>
@@ -66,6 +66,17 @@ export default {
       },
       immediate: true,
       deep: true
+    }
+  },
+  computed: {
+    sortedBorrows() {
+      // Sắp xếp borrow theo _id giảm dần (mới nhất trước)
+      return [...this.borrows].sort((a, b) => {
+        // Nếu _id là ObjectId dạng chuỗi, so sánh chuỗi giảm dần
+        if (a._id > b._id) return -1;
+        if (a._id < b._id) return 1;
+        return 0;
+      });
     }
   },
   methods: {

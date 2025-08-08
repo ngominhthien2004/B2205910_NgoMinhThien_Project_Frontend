@@ -4,6 +4,7 @@
       <thead class="thead-dark">
         <tr>
           <th>Mã sách</th>
+          <th v-if="hasBookTitle">Tên sách</th>
           <th>Ngày mượn</th>
           <th>Ngày trả</th>
           <th>Trạng thái</th>
@@ -12,8 +13,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="borrow in localBorrows" :key="borrow._id">
+        <tr v-for="borrow in sortedBorrows" :key="borrow._id">
           <td>{{ borrow.idBook }}</td>
+          <td v-if="hasBookTitle">{{ borrow.bookTitle || "..." }}</td>
           <td>{{ borrow.ngayMuon ? (new Date(borrow.ngayMuon)).toLocaleDateString() : "" }}</td>
           <td>{{ borrow.ngayTra ? (new Date(borrow.ngayTra)).toLocaleDateString() : "" }}</td>
           <td>
@@ -61,6 +63,20 @@ export default {
     return {
       localBorrows: []
     };
+  },
+  computed: {
+    sortedBorrows() {
+      // Sắp xếp localBorrows theo _id giảm dần (mới nhất trước)
+      return [...this.localBorrows].sort((a, b) => {
+        if (a._id > b._id) return -1;
+        if (a._id < b._id) return 1;
+        return 0;
+      });
+    },
+    hasBookTitle() {
+      // Nếu có ít nhất 1 borrow có thuộc tính bookTitle thì hiển thị cột Tên sách
+      return this.localBorrows.some(b => b.bookTitle !== undefined);
+    }
   },
   methods: {
     translateStatus(status) {
