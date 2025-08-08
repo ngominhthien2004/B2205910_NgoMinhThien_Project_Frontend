@@ -63,7 +63,13 @@ export default {
             {{ book.author }}
         </div>
         <div class="p-1">
-            <button class="btn btn-success" @click="openBorrowForm">Mượn sách</button>
+            <button
+                class="btn btn-success"
+                @click="openBorrowForm"
+                :disabled="book.availableCopies === 0"
+            >
+                Mượn sách
+            </button>
         </div>
         <BorrowForm v-if="showBorrowForm" :book="book" @close="closeBorrowForm" />
     </div>
