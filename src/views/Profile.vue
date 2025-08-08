@@ -39,6 +39,10 @@
               <div class="col-4 font-weight-bold">Số điện thoại:</div>
               <div class="col"><input v-model="form.phoneReader" class="form-control" /></div>
             </div>
+            <div class="row mb-2">
+              <div class="col-4 font-weight-bold">Mật khẩu mới:</div>
+              <div class="col"><input v-model="form.password" type="password" class="form-control" placeholder="Để trống nếu không đổi" /></div>
+            </div>
           </div>
           <div v-else-if="user.role === 'staff'">
             <div class="row mb-2">
@@ -60,6 +64,10 @@
             <div class="row mb-2">
               <div class="col-4 font-weight-bold">Số điện thoại:</div>
               <div class="col"><input v-model="form.phoneStaff" class="form-control" /></div>
+            </div>
+            <div class="row mb-2">
+              <div class="col-4 font-weight-bold">Mật khẩu mới:</div>
+              <div class="col"><input v-model="form.password" type="password" class="form-control" placeholder="Để trống nếu không đổi" /></div>
             </div>
           </div>
           <div class="text-center mt-3">
@@ -103,16 +111,25 @@ export default {
   methods: {
     async updateProfile() {
       try {
-        if (this.user.role === "reader") {
-          await ReaderService.update(this.user._id || this.user.idReader, this.form);
-        } else if (this.user.role === "staff") {
-          await StaffService.update(this.user._id || this.user.idStaff, this.form);
+        // Tạo bản sao form để không làm thay đổi trực tiếp v-model
+        const updateData = { ...this.form };
+        // Nếu password rỗng hoặc chỉ có khoảng trắng, không gửi lên
+        if (!updateData.password || !updateData.password.trim()) {
+          delete updateData.password;
         }
-        // Cập nhật lại localStorage và user hiện tại
-        localStorage.setItem("user", JSON.stringify({ ...this.user, ...this.form }));
-        this.user = { ...this.user, ...this.form };
+        if (this.user.role === "reader") {
+          await ReaderService.update(this.user._id || this.user.idReader, updateData);
+        } else if (this.user.role === "staff") {
+          await StaffService.update(this.user._id || this.user.idStaff, updateData);
+        }
+        // Cập nhật lại localStorage và user hiện tại (không lưu password)
+        const { password, ...userWithoutPassword } = updateData;
+        localStorage.setItem("user", JSON.stringify({ ...this.user, ...userWithoutPassword }));
+        this.user = { ...this.user, ...userWithoutPassword };
         this.message = "Cập nhật thành công!";
         this.messageSuccess = true;
+        // Xóa trường password khỏi form sau khi cập nhật
+        this.form.password = "";
         window.location.reload();
       } catch {
         this.message = "Cập nhật thất bại!";
